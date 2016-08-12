@@ -67,7 +67,7 @@ static Key keys[] = {
 	/* applications are run with Alt-Super-KEY */
 	/*     key   command                       */
 	APPKEY(XK_t, termcmd)
-	APPKEY(XK_t, firefoxcmd)
+	APPKEY(XK_i, firefoxcmd)
 
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
