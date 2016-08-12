@@ -758,7 +758,7 @@ createmon(void)
 	for (i = 0; i < WORKSPACES; ++i) {
 		Workspace *ws = &m->workspaces[i];
 		ws->mfact = mfact;
-		ws->layout = &layouts[0];
+		ws->layout = m->lt[0];
 		ws->label[0] = '\0';
 	}
 
