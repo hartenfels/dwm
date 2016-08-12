@@ -2487,7 +2487,7 @@ currentworkspace(void)
 void
 setworkspace(int direction, Bool move)
 {
-	Arg          arg;
+	Arg arg;
 	unsigned int ws;
 
 	ws = currentworkspace();
