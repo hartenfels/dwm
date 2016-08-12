@@ -102,10 +102,10 @@ static Key keys[] = {
 	{ Mod1Mask,                     XK_F4,     killclient,     {0} },
 
 	{ MODKEY,                       XK_r,      setmfact,       {.f = 1 + MFACT} },
-	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.01} },
-	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.01} },
-	{ MODKEY|ShiftMask,             XK_h,      setmfact,       {.f = -0.05} },
-	{ MODKEY|ShiftMask,             XK_l,      setmfact,       {.f = +0.05} },
+	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.005} },
+	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.005} },
+	{ MODKEY|ShiftMask,             XK_h,      setmfact,       {.f = -0.050} },
+	{ MODKEY|ShiftMask,             XK_l,      setmfact,       {.f = +0.050} },
 
 	{ ControlMask|Mod1Mask,         XK_Up,     viewworkspace,  {.i = -1} },
 	{ ControlMask|Mod1Mask,         XK_Down,   viewworkspace,  {.i =  1} },
