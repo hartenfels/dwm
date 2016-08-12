@@ -2398,7 +2398,6 @@ view(const Arg *arg)
 	if (arg->ui & TAGMASK)
 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
 	focus(NULL);
-	arrange(selmon);
 
 	{
 		Workspace *ws = &selmon->workspaces[currentworkspace()];
