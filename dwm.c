@@ -134,7 +134,7 @@ typedef struct {
 
 typedef struct {
 	float mfact;
-	unsigned int layout;
+	const Layout *layout;
 	char label[8];
 } Workspace;
 
@@ -1740,6 +1740,8 @@ setlayout(const Arg *arg)
 		arrange(selmon);
 	else
 		drawbar(selmon);
+
+	selmon->workspaces[currentworkspace()].layout = selmon->lt[selmon->sellt];
 }
 
 /* arg > 1.0 will set mfact absolutly */
@@ -1755,6 +1757,8 @@ setmfact(const Arg *arg)
 		return;
 	selmon->mfact = f;
 	arrange(selmon);
+
+	selmon->workspaces[currentworkspace()].mfact = selmon->mfact;
 }
 
 void
@@ -2395,6 +2399,14 @@ view(const Arg *arg)
 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
 	focus(NULL);
 	arrange(selmon);
+
+	{
+		Workspace *ws = &selmon->workspaces[currentworkspace()];
+		Arg arg = {.v = ws->layout};
+		selmon->mfact = ws->mfact;
+		setlayout(&arg);
+	}
+
 }
 
 Client *
