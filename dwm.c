@@ -269,6 +269,12 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
 
+/* workspace emulation */
+static unsigned int currentworkspace(void);
+static void setworkspace(int direction, Bool move);
+static void moveworkspace(const Arg *arg);
+static void viewworkspace(const Arg *arg);
+
 /* variables */
 static Systray *systray = NULL;
 static const char broken[] = "broken";
@@ -2471,6 +2477,49 @@ zoom(const Arg *arg)
 			return;
 	pop(c);
 }
+
+
+unsigned int
+currentworkspace(void)
+{
+	unsigned int tagset, i;
+	tagset = selmon->tagset[selmon->seltags];
+	for (i = 0; i < workspaces; ++i)
+		if (tagset & (1 << i))
+			return i;
+	return 0;
+}
+
+void
+setworkspace(int direction, Bool move)
+{
+	Arg          arg;
+	unsigned int ws;
+
+	ws = currentworkspace();
+	if (direction < 0) {
+		ws = ws > 0 ? ws - 1 : workspaces - 1;
+	} else {
+		ws = ws < workspaces - 1 ? ws + 1 : 0;
+	}
+
+	arg.ui = 1 << ws;
+	if (move)
+		tag(&arg);
+	view(&arg);
+}
+
+static void
+moveworkspace(const Arg *arg)
+{
+	setworkspace(arg->i, True);
+}
+
+static void viewworkspace(const Arg *arg)
+{
+	setworkspace(arg->i, False);
+}
+
 
 int
 main(int argc, char *argv[])

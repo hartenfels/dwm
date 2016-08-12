@@ -24,6 +24,7 @@ static const char *colors[SchemeLast][3]      = {
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const unsigned int workspaces = LENGTH(tags);
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -103,6 +104,11 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+
+	{ ControlMask|Mod1Mask,         XK_Up,     viewworkspace,  {.i = -1} },
+	{ ControlMask|Mod1Mask,         XK_Down,   viewworkspace,  {.i =  1} },
+	{ ControlMask|Mod1Mask,         XK_Left,   moveworkspace,  {.i = -1} },
+	{ ControlMask|Mod1Mask,         XK_Right,  moveworkspace,  {.i =  1} },
 };
 
 /* button definitions */
