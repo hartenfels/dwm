@@ -33,7 +33,7 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-#define MFACT 0.55f /* const floats aren't constant because the C standard says so */
+#define MFACT 0.5f /* const floats aren't constant because the C standard says so */
 static const float mfact     = MFACT; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
