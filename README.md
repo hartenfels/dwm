@@ -10,8 +10,18 @@ Just a sweet patch from <http://dwm.suckless.org/patches/systray>.
 
 Pretend that your tags are workspaces like you're some pleb using Unity or
 something. `Ctrl-Alt-Up/Down` shows the previous/next workspace.
-`Ctrl-Alt-Left/Right` moves the current window too. If you have multiple tags
-selected, the first one counts as your workspace.
+`Ctrl-Alt-Left/Right` moves the current window too.
+
+Layouts and the stack factor or whatever you call it are remembered for every
+workspace.
+
+If you have multiple tags selected, the first one counts as your workspace.
+
+* window count
+
+Instead of showing fixed tags in the top bar, the current number of windows in
+that tag is shown instead. I find it useful to find where my windows are at,
+rather than having to scroll through every tag of every monitor looking for it.
 
 
 ## Requirements
