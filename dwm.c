@@ -2414,6 +2414,8 @@ view(const Arg *arg)
 		setlayout(&arg);
 	}
 
+	if (!selmon->sel)
+		arrange(selmon);
 }
 
 Client *
