@@ -44,6 +44,8 @@
 #include "drw.h"
 #include "util.h"
 
+#define WORKSPACES 9
+
 /* macros */
 #define BUTTONMASK              (ButtonPressMask|ButtonReleaseMask)
 #define CLEANMASK(mask)         (mask & ~(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
@@ -54,7 +56,7 @@
 #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
 #define WIDTH(X)                ((X)->w + 2 * (X)->bw)
 #define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
-#define TAGMASK                 ((1 << LENGTH(tags)) - 1)
+#define TAGMASK                 ((1 << WORKSPACES) - 1)
 #define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
 
 #define SYSTEM_TRAY_REQUEST_DOCK    0
@@ -129,6 +131,12 @@ typedef struct {
 	void (*arrange)(Monitor *);
 } Layout;
 
+typedef struct {
+	float mfact;
+	unsigned int layout;
+	char label[8];
+} Workspace;
+
 struct Monitor {
 	char ltsymbol[16];
 	float mfact;
@@ -148,6 +156,7 @@ struct Monitor {
 	Monitor *next;
 	Window barwin;
 	const Layout *lt[2];
+	Workspace workspaces[WORKSPACES];
 };
 
 typedef struct {
@@ -315,7 +324,7 @@ static Window root, wmcheckwin;
 #include "config.h"
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
-struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
+struct NumTags { char limitexceeded[WORKSPACES > 31 ? -1 : 1]; };
 
 /* function implementations */
 void
@@ -475,9 +484,9 @@ buttonpress(XEvent *e)
 	if (ev->window == selmon->barwin) {
 		i = x = 0;
 		do
-			x += TEXTW(tags[i]);
-		while (ev->x >= x && ++i < LENGTH(tags));
-		if (i < LENGTH(tags)) {
+			x += TEXTW(selmon->workspaces[i].label);
+		while (ev->x >= x && ++i < WORKSPACES);
+		if (i < WORKSPACES) {
 			click = ClkTagBar;
 			arg.ui = 1 << i;
 		} else if (ev->x < x + blw)
@@ -722,6 +731,7 @@ Monitor *
 createmon(void)
 {
 	Monitor *m;
+	unsigned int i;
 
 	m = ecalloc(1, sizeof(Monitor));
 	m->tagset[0] = m->tagset[1] = 1;
@@ -732,6 +742,14 @@ createmon(void)
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
+
+	for (i = 0; i < WORKSPACES; ++i) {
+		Workspace *ws = &m->workspaces[i];
+		ws->mfact = mfact;
+		ws->layout = 0;
+		ws->label[0] = '\0';
+	}
+
 	return m;
 }
 
@@ -814,10 +832,23 @@ drawbar(Monitor *m)
 			urg |= c->tags;
 	}
 	x = 0;
-	for (i = 0; i < LENGTH(tags); i++) {
-		w = TEXTW(tags[i]);
+	for (i = 0; i < WORKSPACES; i++) {
+		Client *wc;
+		unsigned int count = 0;
+		char *label = m->workspaces[i].label;
+
+		for(wc = m->clients; wc; wc = wc->next)
+			if(wc->tags & (1 << i))
+				++count;
+
+		if (count > 99)
+			strcpy(label, "lots");
+		else
+			sprintf(label, "%u", count);
+
+		w = TEXTW(label);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
-		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
+		drw_text(drw, x, 0, w, bh, lrpad / 2, label, urg & 1 << i);
 		if (occ & 1 << i)
 			drw_rect(drw, x + boxs, boxs, boxw, boxw,
 				m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
@@ -2484,7 +2515,7 @@ currentworkspace(void)
 {
 	unsigned int tagset, i;
 	tagset = selmon->tagset[selmon->seltags];
-	for (i = 0; i < workspaces; ++i)
+	for (i = 0; i < WORKSPACES; ++i)
 		if (tagset & (1 << i))
 			return i;
 	return 0;
@@ -2498,9 +2529,9 @@ setworkspace(int direction, Bool move)
 
 	ws = currentworkspace();
 	if (direction < 0) {
-		ws = ws > 0 ? ws - 1 : workspaces - 1;
+		ws = ws > 0 ? ws - 1 : WORKSPACES - 1;
 	} else {
-		ws = ws < workspaces - 1 ? ws + 1 : 0;
+		ws = ws < WORKSPACES - 1 ? ws + 1 : 0;
 	}
 
 	arg.ui = 1 << ws;
