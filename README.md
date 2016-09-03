@@ -23,6 +23,22 @@ Instead of showing fixed tags in the top bar, the current number of windows in
 that tag is shown instead. I find it useful to find where my windows are at,
 rather than having to scroll through every tag of every monitor looking for it.
 
+* app key definitions
+
+In a usual dwm, you define stuff in your `config.h`. Here it's a
+`config.tpl.h`, because you define your application shortcuts separately.
+
+To do that, create a file called `apps.pl` and put in things like these:
+
+```perl
+    # exec when Super+Alt+N is pressed
+    app n => 'notify-send', 'hello world';
+    # run a shell command when Super+Alt+D is pressed
+    sh d => 'xsetroot -name `date`';
+```
+
+When `make`ing, these will correctly be inserted into the `config.h`.
+
 
 ## Requirements
 
