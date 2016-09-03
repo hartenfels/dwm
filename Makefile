@@ -19,8 +19,8 @@ options:
 
 ${OBJ}: config.h config.mk
 
-config.h:
-	cp config.def.h $@
+config.h: config.tpl.h
+	perl appkeys.pl < config.tpl.h > config.h
 
 dwm: ${OBJ}
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
