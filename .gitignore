@@ -1,2 +1,4 @@
 *.o
 dwm
+apps.pl
+config.h

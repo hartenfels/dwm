@@ -20,9 +20,8 @@ options:
 
 ${OBJ}: config.h config.mk
 
-config.h:
-	@echo creating $@ from config.def.h
-	@cp config.def.h $@
+config.h: config.tpl.h
+	perl appkeys.pl < config.tpl.h > config.h
 
 dwm: ${OBJ}
 	@echo CC -o $@
