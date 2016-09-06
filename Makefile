@@ -19,11 +19,12 @@ options:
 
 ${OBJ}: config.h config.mk
 
-config.h: config.tpl.h
+config.h: config.tpl.h apps.pl
 	perl appkeys.pl < config.tpl.h > config.h
 
-dwm: ${OBJ}
-	${CC} -o $@ ${OBJ} ${LDFLAGS}
+dwm: ${OBJ} config.h
+	@echo CC -o $@
+	@${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 clean:
 	rm -f dwm ${OBJ} dwm-${VERSION}.tar.gz
