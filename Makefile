@@ -20,10 +20,10 @@ options:
 
 ${OBJ}: config.h config.mk
 
-config.h: config.tpl.h
+config.h: config.tpl.h apps.pl
 	perl appkeys.pl < config.tpl.h > config.h
 
-dwm: ${OBJ}
+dwm: ${OBJ} config.h
 	@echo CC -o $@
 	@${CC} -o $@ ${OBJ} ${LDFLAGS}
 
