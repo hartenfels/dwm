@@ -284,6 +284,9 @@ static void setworkspace(int direction, Bool move);
 static void moveworkspace(const Arg *arg);
 static void viewworkspace(const Arg *arg);
 
+/* autostart */
+static void autostart(void);
+
 /* variables */
 static Systray *systray = NULL;
 static const char broken[] = "broken";
@@ -1590,6 +1593,7 @@ void
 run(void)
 {
 	XEvent ev;
+	autostart();
 	/* main event loop */
 	XSync(dpy, False);
 	while (running && !XNextEvent(dpy, &ev))
@@ -2552,6 +2556,16 @@ moveworkspace(const Arg *arg)
 static void viewworkspace(const Arg *arg)
 {
 	setworkspace(arg->i, False);
+}
+
+
+static void autostart(void)
+{
+	int ret;
+	ret = system("exec sh ~/.dwm-autostart");
+	if (ret != 0) {
+		fprintf(stderr, "warning: autostart exited with %d\n", ret);
+	}
 }
 
 
