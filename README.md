@@ -39,6 +39,12 @@ To do that, create a file called `apps.pl` and put in things like these:
 
 When `make`ing, these will correctly be inserted into the `config.h`.
 
+* autostart
+
+When you put a shell script into `~/.dwm-autostart`, it will be executed after
+dwm starts up. This is useful for keyring passwords for example, for which an
+entry in the `.xinitrc` is too early.
+
 
 ## Requirements
 
