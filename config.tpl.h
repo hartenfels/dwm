@@ -53,6 +53,8 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 #define APPKEY(KEY, CMD) \
 	{ Mod1Mask|Mod4Mask,            KEY,      spawn,          {.v = CMD } },
+#define SYMKEY(KEY, CMD) \
+	{ 0,                            KEY,      spawn,          {.v = CMD } },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
