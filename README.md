@@ -35,6 +35,8 @@ To do that, create a file called `apps.pl` and put in things like these:
     app n => 'notify-send', 'hello world';
     # run a shell command when Super+Alt+D is pressed
     sh d => 'xsetroot -name `date`';
+    # exec when Sleep key is pressed
+    sym 0x1008ff2f => 'pm-suspend';
 ```
 
 When `make`ing, these will correctly be inserted into the `config.h`.
