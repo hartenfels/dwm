@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
+use FindBin;
 
 my (%apps, %syms);
 
@@ -22,7 +23,7 @@ sub sh {
 }
 
 
-do 'apps.pl';
+do "$FindBin::Bin/apps.pl";
 die $@ if $@;
 
 my ($cmds, $appkeys);
