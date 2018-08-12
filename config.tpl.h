@@ -62,6 +62,9 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *lightercmd[] = { "sudo", "backlighty.pl", "+20", NULL };
+static const char * darkercmd[] = { "sudo", "backlighty.pl", "-20", NULL };
+static const char *suspendcmd[] = { "lockandsuspend", NULL };
 
 /*{{ APPCOMMANDS }}*/
 
@@ -110,6 +113,10 @@ static Key keys[] = {
 	{ ControlMask|Mod1Mask,         XK_Down,   viewworkspace,  {.i =  1} },
 	{ ControlMask|Mod1Mask,         XK_Left,   moveworkspace,  {.i = -1} },
 	{ ControlMask|Mod1Mask,         XK_Right,  moveworkspace,  {.i =  1} },
+
+	{ 0, 0x1008ff02, spawn, {.v = lightercmd} },
+	{ 0, 0x1008ff03, spawn, {.v = darkercmd } },
+	{ 0, 0x1008ff2f, spawn, {.v = suspendcmd} },
 };
 
 /* button definitions */
