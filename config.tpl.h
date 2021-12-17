@@ -51,8 +51,8 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
-#define APPKEY(KEY, CMD) \
-	{ Mod1Mask|Mod4Mask,            KEY,      spawn,          {.v = CMD } },
+#define APPKEY(MODS, KEY, CMD) \
+	{ MODS,                         KEY,      spawn,          {.v = CMD } },
 #define SYMKEY(KEY, CMD) \
 	{ 0,                            KEY,      spawn,          {.v = CMD } },
 
