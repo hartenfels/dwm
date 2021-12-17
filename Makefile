@@ -19,7 +19,7 @@ options:
 
 ${OBJ}: config.h config.mk
 
-config.h: config.tpl.h apps.pl
+config.h: config.tpl.h apps.pl appkeys.pl
 	perl appkeys.pl < config.tpl.h > config.h
 
 dwm: ${OBJ} config.h
